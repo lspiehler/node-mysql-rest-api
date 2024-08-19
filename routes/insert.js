@@ -11,7 +11,7 @@ router.put('/', function(req, res, next) {
         database: req.body.mysql.database
     });
     //console.log(req.body.values);
-    let query = connection.query(req.body.query, [req.body.values], function(err, results, rows) {
+    let query = connection.query(req.body.query, req.body.values, function(err, results, rows) {
         //console.log(query.sql);
         connection.end();
         if(err) {
