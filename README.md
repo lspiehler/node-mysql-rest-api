@@ -48,5 +48,5 @@ $body = @{
 
 ## Build and Run Docker Container
 ```
-docker build -t lspiehler/node-mysql-rest-api:f276df3 .
-docker run -d -it --restart unless-stopped --name=node-mysql-rest-api -p 3001:3000 lspiehler/node-mysql-rest-api:f276df3
+docker build -t lspiehler/node-mysql-rest-api:latest .
+docker run -d -it --restart unless-stopped --name=node-mysql-rest-api -p 3001:3000 lspiehler/node-mysql-rest-api:latest
