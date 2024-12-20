@@ -6,7 +6,10 @@ To insert, send HTTP PUT request to /insert, Example:
                 "host": "mysql_host",
                 "user": "mysql_username",
                 "password": "mysql_passord",
-                "database": "mysql_database"
+                "database": "mysql_database",
+                "ssl": {
+                        "rejectUnauthorized": false
+                }
         },
         "query": "INSERT INTO `gpos` (`root`, `ou`, `gpo_name`) VALUES ?",
         "values": [[
@@ -31,6 +34,9 @@ $body = @{
                 user = "mysql_username"
                 password = "mysql_passord"
                 database = "mysql_database"
+                ssl = @{
+                        rejectUnauthorized = $False
+                }
     }
     query = "INSERT INTO ``associated_gpos`` (``root``, ``ou``, ``gpo_name``) VALUES ?"
     values = $wrapinsert
