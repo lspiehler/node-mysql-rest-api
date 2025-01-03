@@ -11,15 +11,15 @@ To insert, send HTTP PUT request to /insert, Example:
                         "rejectUnauthorized": false
                 }
         },
-        "query": "INSERT INTO `gpos` (`root`, `ou`, `gpo_name`) VALUES ?",
+        "query": "INSERT INTO ``example_table`` (``first``, ``last``) VALUES ?",
         "values": [[
-                ["ROOT1", "OUNAME1", "GPONAME1"],
-                ["ROOT2", "OUNAME2", "GPONAME2"]
+                ["John", "Smith"],
+                ["Jane", "Doe"]
         ]]
 }
 ```
 
-## Example Powershell Insert
+## Example Powershell INSERT
 ```
 $values = [System.Collections.ArrayList]@()
 $values.Add(@("John", "Smith"))
@@ -44,7 +44,7 @@ $body = @{
 
 $query = @{
 	Headers = @{
-			"Content-Type" = "application/json"
+		"Content-Type" = "application/json"
 	}
 	Uri = "http://mysqlapi.mydomain.org/query"
 	Method = "PUT"
@@ -71,7 +71,7 @@ $body = @{
 
 $query = @{
 	Headers = @{
-			"Content-Type" = "application/json"
+	        "Content-Type" = "application/json"
 	}
 	Uri = "http://mysqlapi.mydomain.org/query"
 	Method = "POST"
@@ -99,7 +99,7 @@ $body = @{
 
 $query = @{
 	Headers = @{
-			"Content-Type" = "application/json"
+		"Content-Type" = "application/json"
 	}
 	Uri = "http://mysqlapi.mydomain.org/query"
 	Method = "DELETE"
@@ -121,13 +121,13 @@ $body = @{
                         rejectUnauthorized = $False
                 }
     }
-    query = "UPDATE ``example_table`` SET ``first`` = 'John' WHERE ``first`` = 'Jane'"
-    values = @("John")
+    query = "UPDATE ``example_table`` SET ``first`` = ? WHERE ``first`` = ?"
+    values = @("John", "Jane")
 }
 
 $query = @{
 	Headers = @{
-			"Content-Type" = "application/json"
+		"Content-Type" = "application/json"
 	}
 	Uri = "http://mysqlapi.mydomain.org/query"
 	Method = "PATCH"
