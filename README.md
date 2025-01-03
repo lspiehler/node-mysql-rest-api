@@ -22,8 +22,8 @@ To insert, send HTTP PUT request to /insert, Example:
 ## Example Powershell Insert
 ```
 $values = [System.Collections.ArrayList]@()
-$values.Add(@("ROOT1", "OUNAME1", "GPONAME1"))
-$values.Add(@("ROOT2", "OUNAME2", "GPONAME2"))
+$values.Add(@("John", "Smith"))
+$values.Add(@("Jane", "Doe"))
 
 $wrapinsert = New-Object -TypeName System.Collections.ArrayList
 $wrapinsert.Add($values)
@@ -38,18 +38,103 @@ $body = @{
                         rejectUnauthorized = $False
                 }
     }
-    query = "INSERT INTO ``associated_gpos`` (``root``, ``ou``, ``gpo_name``) VALUES ?"
+    query = "INSERT INTO ``example_table`` (``first``, ``last``) VALUES ?"
     values = $wrapinsert
 }
 
-@{
-        Headers = @{
-                "Content-Type" = "application/json"
-        }
-        Uri = "https://mysqlapi.mydomain.org/insert"
-        Method = "PUT"
-        Body = $body | ConvertTo-Json -Depth 3
+$query = @{
+	Headers = @{
+			"Content-Type" = "application/json"
+	}
+	Uri = "http://mysqlapi.mydomain.org/query"
+	Method = "PUT"
+	Body = $body | ConvertTo-Json -Depth 3
 } | % { Invoke-RestMethod @_ }
+
+$query.results
+```
+
+## Example Powershell SELECT
+```
+$body = @{
+    mysql = @{
+        host = "mysql_host"
+                user = "mysql_username"
+                password = "mysql_passord"
+                database = "mysql_database"
+                ssl = @{
+                        rejectUnauthorized = $False
+                }
+    }
+    query = "SELECT * FROM ``example_table``"
+}
+
+$query = @{
+	Headers = @{
+			"Content-Type" = "application/json"
+	}
+	Uri = "http://mysqlapi.mydomain.org/query"
+	Method = "POST"
+	Body = $body | ConvertTo-Json -Depth 3
+} | % { Invoke-RestMethod @_ }
+
+$query.results
+```
+
+## Example Powershell DELETE
+```
+$body = @{
+    mysql = @{
+        host = "mysql_host"
+                user = "mysql_username"
+                password = "mysql_passord"
+                database = "mysql_database"
+                ssl = @{
+                        rejectUnauthorized = $False
+                }
+    }
+    query = "DELETE FROM ``example_table`` WHERE ``first`` = ?"
+    values = @("John")
+}
+
+$query = @{
+	Headers = @{
+			"Content-Type" = "application/json"
+	}
+	Uri = "http://mysqlapi.mydomain.org/query"
+	Method = "DELETE"
+	Body = $body | ConvertTo-Json -Depth 3
+} | % { Invoke-RestMethod @_ }
+
+$query.results
+```
+
+## Example Powershell UPDATE
+```
+$body = @{
+    mysql = @{
+        host = "mysql_host"
+                user = "mysql_username"
+                password = "mysql_passord"
+                database = "mysql_database"
+                ssl = @{
+                        rejectUnauthorized = $False
+                }
+    }
+    query = "UPDATE ``example_table`` SET ``first`` = 'John' WHERE ``first`` = 'Jane'"
+    values = @("John")
+}
+
+$query = @{
+	Headers = @{
+			"Content-Type" = "application/json"
+	}
+	Uri = "http://mysqlapi.mydomain.org/query"
+	Method = "PATCH"
+	Body = $body | ConvertTo-Json -Depth 3
+} | % { Invoke-RestMethod @_ }
+
+$query.results
 ```
 
 ## Build and Run Docker Container

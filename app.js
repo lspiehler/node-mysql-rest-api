@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var insertRouter = require('./routes/insert');
+var queryRouter = require('./routes/query');
 
 var app = express();
 
@@ -21,11 +21,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/insert', insertRouter);
+//for backwards compatibility
+app.use('/insert', queryRouter);
+//new route for all queries
+app.use('/query', queryRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function(req, res) {
+  //next(createError(404));
+  res.status(404).json({
+    error: "Path not found"
+  });
 });
 
 // error handler
